@@ -1,0 +1,35 @@
+site_name: LLM Toolkit Documentation
+site_description: This is the documentation for the LLM Toolkit, a Bubble.io plugin that makes it easy to build LLM-powered applications e.g., ChatGPT-style apps.
+site_author: Launchable AI
+copyright: © 2024 Launchable AI. All rights reserved.
+repo_url: https://github.com/Launchable-AI/llm-toolkit-docs
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - toc.integrate
+    - navigation.top
+    - search.suggest
+    - search.highlight
+  language: en
+  palette:
+    - scheme: slate   # this is used by default
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode    
+      primary: deep purple
+      accent: amber
+    - scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline 
+        name: Switch to dark mode
+      primary: deep purple
+      accent: amber 
+
+nav:
+- Home: index.md
+- Usage: usage.md
+- Elements: elements.md
+- Actions: actions.md
+- Hosting: hosting.md
