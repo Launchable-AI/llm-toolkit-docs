@@ -33,3 +33,13 @@ nav:
 - Elements: elements.md
 - Actions: actions.md
 - Hosting: hosting.md
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+
+plugins:
+  - glightbox
+
+# extra_css:
+#   - css/extra.css
