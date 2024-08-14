@@ -83,4 +83,8 @@ To set this up, follow these steps:
 
 ## Saving and Reloading Chats
 
+(coming soon)
+
 ## Audio Apps
+
+(coming soon)
