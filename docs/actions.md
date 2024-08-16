@@ -276,7 +276,7 @@ This is the in-depth documentation for each action that the plugin provides.  Fo
 
 ### Set System Message
 
-**Description:** This action allows one to tune the behaviour of an LLM at a high level. This is done by setting a system message, which is then included with every message that is sent to the model.
+**Description:** This action allows one to tune the behaviour of an LLM at a high level. This is done by setting a system message, which is then included with every message that is sent to the LLM model.
 
 ### Parameters
 - **`Element`**
