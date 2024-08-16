@@ -58,13 +58,7 @@ This is the in-depth documentation for each action that the plugin provides.  Fo
 ## Chat
 
 ### Chat Completion (streaming)
-
-This is one of the most fundamnetal actions contained within the toolkit. In which, by using this action one may trigger a response from an AI model (ChatGPT or one of the many OpenRouter models) given a specific prompt. This action has a multitude of parameters one may configure. 
-
-
-
-
-
+ 
 
 ### Chat Completion (Non-Streaming) - V2
 
@@ -309,7 +303,69 @@ This is one of the most fundamnetal actions contained within the toolkit. In whi
 
 ### Extract Text And Embeddings From File
 
-(documentation coming soon)
+**Description:** Extracts text from various file formats such as PDF, DOC, CSV, and more. The action supports a wide range of file types and allows for the creation of text embeddings for further processing or searching.
+
+### Parameters
+
+- **`File`**
+  - **Type:** File
+  - **Description:** The file from which to extract text. Should be a "File Uploader's value" or a file saved to your database. Supported file types include .pdf, .doc, .docx, .csv, .xlsx, .ppt, .pptx, .odt, .epub, .tsv, .txt, .html, .json, .xml, .md, .rst, .rtf, .eml, .msg, .jpeg, .png.
+  - **Example:** `"path/to/your-file.pdf"`
+
+- **`User OpenAI API Key`** (Optional)
+  - **Type:** String
+  - **Description:** If your user is providing their own API key, set it here. If you are providing your own key, set it in the plugins tab.
+  - **Example:** `"sk-xxxxxx"`
+
+- **`Create Embeddings?`**
+  - **Type:** Boolean
+  - **Description:** Whether to create embeddings or not. If set to `true`, will return vector embeddings for each chunk. This is useful for later searching through texts to find relevant data. Requires an OpenAI API Key.
+  - **Example:** `false`
+
+- **`DataAPI - URL`** (Optional)
+  - **Type:** String
+  - **Description:** If using the Data API for chunk creation, specify the Data Type URL you want to use to store the returned chunks.
+  - **Example:** `"https://your-data-api-url.com"`
+
+- **`Data API - Data Type`** (Optional)
+  - **Type:** String
+  - **Description:** If using the Data API for chunk creation, specify the Data Type you want to use to store the returned chunks.
+  - **Example:** `"ChunkDataType"`
+
+- **`DataAPI - Fallback - Text`** (Optional)
+  - **Type:** String
+  - **Description:** If using the Data API for chunk creation, manually specify the database field for storing the text component of each chunk. This should be a field of type "text".
+  - **Example:** `"Text"`
+
+- **`DataAPI - Fallback - Embedding`** (Optional)
+  - **Type:** String
+  - **Description:** If you cannot disable the "Use field display instead of ID for key names" setting, specify the field name for storing the embedding component of each chunk.
+  - **Example:** `"Embedding"`
+
+- **`DataAPI - Fallback - Page`** (Optional)
+  - **Type:** String
+  - **Description:** If you cannot disable the "Use field display instead of ID for key names" setting, specify the field name for storing the page number of each chunk.
+  - **Example:** `"PageNum"`
+
+- **`Reference ID`** (Optional)
+  - **Type:** String
+  - **Description:** Specify the ID of the reference you want to link your chunk to, such as a User or Project. Set this field to the unique ID of that object.
+  - **Example:** `"user-123"`
+
+- **`Fallback - Reference Field`** (Optional)
+  - **Type:** String
+  - **Description:** If linking the record to another record and you cannot disable the "Use field display instead of ID for key names" setting, specify the reference field name.
+  - **Example:** `"Source"`
+
+- **`Custom Plugin URL`** (Optional)
+  - **Type:** String
+  - **Description:** If hosting your own plugin server, enter its address here.
+  - **Example:** `"https://your-custom-server.com"`
+
+- **`Embedding Model`** (Optional)
+  - **Type:** String
+  - **Description:** Name of the model to use for creating embeddings. Options include "text-embedding-3-large" (default and most performant), "text-embedding-3-small", and "text-embedding-ada-002".
+  - **Example:** `"text-embedding-3-large"`
 
 ## Audio
 
