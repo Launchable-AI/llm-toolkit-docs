@@ -58,6 +58,157 @@ This is the in-depth documentation for each action that the plugin provides.  Fo
 ## Chat
 
 ### Chat Completion (streaming)
+
+**Description:** Generates a streaming response for a given prompt using the specified GPT model. This action sends a request to the OpenAI API and streams the response back as the model generates it. This is useful for real-time or large responses that need to be delivered as they are being generated.
+
+### Parameters
+
+- **`Element`**
+  - **Type:** String
+  - **Description:** The element used for input, typically for selecting or configuring options within the streaming action.
+  - **Example:** `"ChatGPTToolkit-DataContainer A."`
+
+- **`Prompt`**
+  - **Type:** Rich text editor
+  - **Description:** Input message to ChatGPT. This can be left blank if you've manually set your message history using the "Set Message History" action.
+  - **Example:** `"Provide a detailed analysis of the following data set..."`
+
+- **`Hidden Context`**
+  - **Type:** Rich text editor
+  - **Description:** Provides extra context that you don't want the user to see in the list of messages. This could include search results or other contextual data used to inform the model's response.
+  - **Important:** Do not include sensitive information, as advanced users could potentially inspect API requests and view this content.
+
+- **`Model`**
+  - **Type:** String
+  - **Description:** Specifies which model to use. Supports all OpenAI models as well as 100+ non-OpenAI models via OpenRouter.
+  - **Example:** `"gpt-3.5-turbo"`
+
+- **`Security Token`**
+  - **Type:** String
+  - **Description:** The security token, which includes your encrypted API key. Use this if you're providing your API key to users.
+  - **Example:** `"YourSecurityTokenHere"`
+
+- **`User OpenAI API Key`**
+  - **Type:** String
+  - **Description:** The OpenAI API key provided by the user.
+  - **Example:** `"sk-..."`
+
+- **`Use Message History?`**
+  - **Type:** Boolean
+  - **Description:** Whether to include previous messages when sending a prompt. If set to "yes," the plugin will intelligently truncate to the appropriate context length.
+  - **Example:** `"yes"`
+
+- **`Smart Truncate`**
+  - **Type:** Boolean
+  - **Description:** Automatically trims the message history to fit into the model's context limit. Requires plugin servers.
+  - **Example:** `"yes"`
+
+- **`Last N Messages`**
+  - **Type:** Number
+  - **Description:** The number of messages from the message history to send with the current prompt.
+  - **Example:** `"5"`
+
+- **`Count Tokens?`**
+  - **Type:** Boolean
+  - **Description:** Whether to count the input/output/total tokens used for each prompt and reply. Requires plugin servers.
+  - **Example:** `"yes"`
+
+- **`Max Input Tokens`**
+  - **Type:** Number
+  - **Description:** Limits the number of tokens used for input to a specified value.
+  - **Example:** `"3000"`
+
+- **`Max Output Tokens`**
+  - **Type:** Number
+  - **Description:** Limits the number of tokens returned.
+  - **Example:** `"500"`
+
+- **`Stop Sequences`**
+  - **Type:** String
+  - **Description:** A comma-separated list of sequences that will cause the output to stop if produced.
+  - **Example:** `"end, stop, finish, done"`
+
+- **`Presence Penalty`**
+  - **Type:** Number
+  - **Description:** A penalty applied to the likelihood of generating new tokens based on whether they have appeared in the text so far.
+  - **Range:** `-2.0` to `2.0`
+  - **Example:** `"0.5"`
+
+- **`Temperature`**
+  - **Type:** Number
+  - **Description:** Controls the randomness of the generation. Higher values make output more random; lower values make it more focused and deterministic.
+  - **Range:** `0` to `2`
+  - **Example:** `"0.7"`
+
+- **`Frequency Penalty`**
+  - **Type:** Number
+  - **Description:** Penalizes the model for generating tokens that have already appeared in the text.
+  - **Range:** `-2.0` to `2.0`
+  - **Example:** `"0.5"`
+
+- **`Logit Bias`**
+  - **Type:** JSON Object
+  - **Description:** Modifies the likelihood of specified tokens appearing in the completion. A JSON object mapping tokens to a bias value.
+  - **Example:** `{"2435": -100, "640": -100}`
+
+- **`Top P`**
+  - **Type:** Number
+  - **Description:** An alternative to sampling with temperature, called nucleus sampling. The model considers only the tokens comprising the top `p` probability mass.
+  - **Range:** `0.0` to `1.0`
+  - **Example:** `"0.9"`
+
+- **`User`**
+  - **Type:** String
+  - **Description:** A unique identifier representing your end-user, which can help OpenAI monitor and detect abuse.
+  - **Example:** `"user-123abc"`
+
+- **`Function Call`**
+  - **Type:** JSON Object
+  - **Description:** Controls how the model responds to function calls. Options include `"none"` (default), `"auto"`, or specifying a function name.
+  - **Example:** `{"name": "my_function"}`
+
+- **`Functions`**
+  - **Type:** Rich text editor
+  - **Description:** The list of functions to include with the request. Normally set to `"Data Container's Functions"` or manually specified.
+  - **Example:** `[{"name": "get_weather", "parameters": {"location": "New York"}}]`
+
+- **`JSON mode?`**
+  - **Type:** Boolean
+  - **Description:** If set to "yes," ChatGPT responds with JSON data. You must specify in your user or system message that you want JSON back.
+  - **Example:** `"no"`
+
+- **`Custom Headers`**
+  - **Type:** JSON Object
+  - **Description:** Custom headers to include in the API request, such as the `"Organization"` header.
+  - **Example:** `{"Organization": "org-123abc", "Other-Header": "ValueHere"}`
+
+- **`Image 1`**
+  - **Type:** Image Upload
+  - **Description:** An optional image to pass along with the Chat Completion. Must use the `"gpt-4-vision-preview"` model if included.
+
+- **`Image 2`**
+  - **Type:** Image Upload
+  - **Description:** An optional second image to pass along with the Chat Completion.
+
+- **`User OpenRouter Key`**
+  - **Type:** String
+  - **Description:** If using non-OpenAI models, provide the user's OpenRouter API key here.
+  - **Example:** `"your-openrouter-key"`
+
+- **`Use OpenRouter?`**
+  - **Type:** Boolean
+  - **Description:** Set to `"yes"` to route requests through OpenRouter for access to additional models.
+  - **Example:** `"no"`
+
+- **`Custom Endpoint`**
+  - **Type:** String
+  - **Description:** The URL for routing requests to another endpoint, such as an Azure deployment.
+  - **Example:** `"https://custom-endpoint.com"`
+
+- **`Custom Body`**
+  - **Type:** Rich text editor
+  - **Description:** Customizes the payload of the request, overwriting all other options and properties.
+  - **Example:** `{"custom_key": "custom_value"}`
  
 
 ### Chat Completion (Non-Streaming) - V2
