@@ -65,7 +65,7 @@ This is the in-depth documentation for each action that the plugin provides.  Fo
 
 - **`Element`**
   - **Type:** String
-  - **Description:** The element used for input, typically for selecting or configuring options within the streaming action.
+  - **Description:** The specified front-end DataContainer, which stores the chat data.
   - **Example:** `"ChatGPTToolkit-DataContainer A."`
 
 - **`Prompt`**
@@ -257,15 +257,43 @@ This is the in-depth documentation for each action that the plugin provides.  Fo
 
 ### Clear Message History
 
-(documentation coming soon)
+**Description:** This action clears the entire message history of the DataContainer.
+
+### Parameters
+- **`Element`**
+  - **Type:** String
+  - **Description:** The DataContainer whose messages should be cleared.
+  - **Example:** `"ChatGPTToolkit-DataContainer A."`
 
 ### Clear Current Message
+**Description:** This action clears the latest message contained in the DataContainer.
 
-(documentation coming soon)
+### Parameters
+- **`Element`**
+  - **Type:** String
+  - **Description:** The DataContainer whose latest message should be cleared.
+  - **Example:** `"ChatGPTToolkit-DataContainer A."`
 
 ### Set System Message
 
-(documentation coming soon)
+**Description:** This action allows one to tune the behaviour of an LLM at a high level. This is done by setting a system message, which is then included with every message that is sent to the model.
+
+### Parameters
+- **`Element`**
+  - **Type:** String
+  - **Description:** The DataContainer which should recieve the system message.
+  - **Example:** `"ChatGPTToolkit-DataContainer A."`
+- **`System Message`**
+  - **Type:** Number
+  - **Description:** Set a static system message that will be included with each message sent to ChatGPT. A system message
+controls the behavior of ChatGPT at a high level. You can instruct ChatGPT to respond in a particular style (eg.,
+formal, comic), to assume certain knowledge (eg., "you
+are an expert legal advisor"), to return responses in a
+particular format (eg., "return your answer in JSON"), and
+more. Note that this can also be done in the "Send
+Message" actions, by setting role to "system"; this is just a
+simpler way to do the same thing.
+  - **Example:** `"Only respond in HTML format"`
 
 ### Add Function
 
