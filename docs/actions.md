@@ -251,11 +251,57 @@ This is one of the most fundamnetal actions contained within the toolkit. In whi
 
 ### Web Search
 
-(documentation coming soon)
+**Description:** Performs a search using Google and retrieves results based on the provided query. This action fetches data from search results to be used in further processing.
+
+### Parameters
+
+- **`Query`**
+  - **Type:** String
+  - **Description:** The search query to use for fetching results from Google.
+  - **Example:** `"latest AI news"`
+
+- **`API Key`**
+  - **Type:** String
+  - **Description:** The API key for the Serper API used to perform the search.
+  - **Example:** `"serper-api-key"`
+
+- **`Number of Results`**
+  - **Type:** Integer
+  - **Description:** The number of search results to retrieve. Maximum is 30.
+  - **Example:** `5`
+
+- **`Include Source URL`**
+  - **Type:** Boolean
+  - **Description:** Specifies whether or not to include the source URL in the results.
+  - **Example:** `true`
+
+- **`Custom Plugin URL`** (Optional)
+  - **Type:** String
+  - **Description:** URL of the custom server hosting the plugin, if applicable.
+  - **Example:** `"https://your-custom-server.com"`
 
 ### Read Websites
 
-(documentation coming soon)
+
+**Description:** Fetches and reads data from specified websites. This action retrieves the content from given URLs to be used in further processing.
+
+### Parameters
+
+- **`URLs`**
+  - **Type:** List of Strings
+  - **Description:** A list of website URLs to fetch data from.
+  - **Example:** `["https://example.com", "https://anotherexample.com"]`
+
+- **`Include Source URL`**
+  - **Type:** Boolean
+  - **Description:** Specifies whether or not to include the source URL in the retrieved content.
+  - **Example:** `true`
+
+- **`Custom Plugin URL`** (Optional)
+  - **Type:** String
+  - **Description:** URL of the custom server hosting the plugin, if applicable.
+  - **Example:** `"https://your-custom-server.com"`
+
 
 ### Vector Similarity Search
 
