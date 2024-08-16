@@ -62,7 +62,47 @@ This is the in-depth documentation for each action that the plugin provides.  Fo
 
 ### Chat Completion (Non-Streaming) - V2
 
-(documentation coming soon)
+**Description:** Generates a completion for a given prompt using the specified GPT model. This action sends a request to the OpenAI API to generate a response based on the provided messages and model parameters. It does not support streaming.
+
+### Parameters
+
+- **`Authorization`**
+  - **Type:** String
+  - **Description:** The authorization header containing the Bearer token for accessing the OpenAI API.
+  - **Example:** `"Bearer sk-proj-drYyFq6U6vaHziFZg17qT3BlbkFJ0sbYQxbgLnI8hDECytZx"`
+
+- **`Request Body`**
+  - **Type:** JSON
+  - **Description:** The body of the request containing details about the model and messages. Includes model name, and the list of messages with roles and content types.
+  - **Example:**
+    `json
+    {
+      "model": "gpt-4o",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "The attached images are screenshots from a grant application form for NIH grants. From these images, generate a list of questions that the applicant should answer. In other words, for each input field, extract the relevant question. Delimit your generated/extracted questions with ===. Do not return any other text, other than the list of questions. Do not number or bullet-point the questions."
+            },
+            {
+              "type": "image_url",
+              "image_url": {
+                "url": "https://5aa3a999252d6a2f4476f23c187ef64a.cdn.bubble.io/f1720784600236x763582507010956300/sf_424_rr_1.png"
+              }
+            },
+            {
+              "type": "image_url",
+              "image_url": {
+                "url": "https://5aa3a999252d6a2f4476f23c187ef64a.cdn.bubble.io/f1720784607351x596679106919240100/sf_424_rr_2.png"
+              }
+            }
+          ]
+        }
+      ]
+    }
+    `
 
 ### Clear Message History
 
