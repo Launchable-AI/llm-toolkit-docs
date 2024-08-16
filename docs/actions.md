@@ -6,17 +6,65 @@ This is the in-depth documentation for each action that the plugin provides.  Fo
 
 ### Create Security Token
 
-(documentation coming soon)
+**Description:** Generates a security token using an OpenAI API key. This token can be used for authenticating API requests and can be set to expire after a specified duration.
+
+### Parameters
+
+- **`api_key`**
+  - **Type:** String
+  - **Description:** The OpenAI API key used to generate the security token.
+  - **Example:** `"sk-xxxxxx"`
+
+- **`expiration_minutes`**
+  - **Type:** Integer
+  - **Description:** Duration in minutes for which the security token will be valid. Default is 360 minutes (6 hours).
+  - **Example:** `360`
+
+- **`password`** (Optional)
+  - **Type:** String
+  - **Description:** A password to revoke or invalidate the token before its expiration. Not needed for making API calls.
+  - **Example:** `"your-password"`
+
+- **`custom_plugin_url`** (Optional)
+  - **Type:** String
+  - **Description:** URL of the custom server hosting the plugin, if applicable.
+  - **Example:** `"https://your-custom-server.com"`
+- **`Headers`** (Optional)
+  - **Type:** JSON
+  - **Description:** If you need to provide custom headers, such as an API key for Azure, enter them here, formatted as JSON.
+  - **Example:** `{"api-key": "1234567"}`
+
 
 ### Expire Security Token
 
-(documentation coming soon)
+**Description:** Immediately expires a previously generated security token before its scheduled expiration.
+
+### Parameters
+
+- **`token`**
+  - **Type:** String
+  - **Description:** The security token that needs to be expired.
+  - **Example:** `"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"`
+
+- **`password`** (Optional)
+  - **Type:** String
+  - **Description:** Password for invalidating the token, if one was set during token creation.
+  - **Example:** `"your-password"
+- **`custom_plugin_url`** (Optional)
+  - **Type:** String
+  - **Description:** URL of the custom server hosting the plugin, if applicable.
+  - **Example:** `"https://your-custom-server.com"`
 
 ## Chat
 
 ### Chat Completion (streaming)
 
-(documentation coming soon)
+This is one of the most fundamnetal actions contained within the toolkit. In which, by using this action one may trigger a response from an AI model (ChatGPT or one of the many OpenRouter models) given a specific prompt. This action has a multitude of parameters one may configure. 
+
+
+
+
+
 
 ### Chat Completion (Non-Streaming) - V2
 
