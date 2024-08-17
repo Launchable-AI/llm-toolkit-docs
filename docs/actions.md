@@ -581,11 +581,106 @@ simpler way to do the same thing.
 
 ### Create Thread
 
-(documentation coming soon)
+**Description:** This action initiates a new thread with a specified assistant. It allows you to start a conversation by providing an initial set of messages and resources for the assistant's tools.
+
+### Parameters
+
+- **`(header) Content-Type`**
+  - **Type:** String
+  - **Description:** Specifies the media type of the request. This should be set to `"application/json"` to ensure that the server processes the request as JSON.
+  - **Example:** `"application/json"`
+
+- **`(header) Authorization`**
+  - **Type:** String
+  - **Description:** The API key or token used for authorization. This header is essential for authenticating the request, ensuring that only authorized users can start a thread with the assistant.
+  - **Example:** `"Bearer sk-..."`
+
+- **`(header) OpenAI-Beta`**
+  - **Type:** String
+  - **Description:** This allows one to specify which version of assistants is being utilized.
+  - **Example:** `"assistants=v2"`
+
+- **`(body) messages`**
+  - **Type:** Array of Objects
+  - **Description:** A list of messages that will be used to start the thread. These messages can include system messages, user inputs, or assistant responses to initialize the conversation.
+  - **Example:** `[{"role": "system", "content": "You are a helpful assistant."}, {"role": "user", "content": "Tell me a joke."}]`
+
+- **`(body) tool resources`**
+  - **Type:** Object
+  - **Description:** A set of resources made available to the assistant's tools in this thread. The resources are specific to the type of tool being used. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  - **Example:** `{"code_interpreter": {"file_ids": ["file-abc123"]}, "file_search": {"vector_store_ids": ["vector-xyz789"]}}`
+
+- **`(body) metadata`**
+  - **Type:** Object
+  - **Description:** A set of up to 16 key-value pairs that can be attached to the thread. This is useful for storing additional information about the thread in a structured format. Each key can be a maximum of 64 characters long, and each value can be up to 512 characters long.
+  - **Example:** `{"project_id": "proj_12345", "session_id": "sess_67890"}`
 
 ### Create Thread And Run (Streaming)
 
-(documentation coming soon)
+
+**Description:** This action initiates a thread with a specified assistant and runs it using provided messages, tools, and configurations (whilst streaming the response).
+
+### Parameters
+
+- **`(path) Assistant ID`**
+  - **Type:** String
+  - **Description:** The ID of the Assistant you want to use for the run.
+  - **Example:** `"asst_oULbF3tvVtvnEzDIxoO00eJW"`
+
+- **`(body) Messages (List)`**
+  - **Type:** Array of Strings
+  - **Description:** A list of messages provided as text. Note that you can only use this field OR `"Messages (JSON)"`, but not both. If both are set, `"Messages (JSON)"` will take precedence.
+  - **Example:** `["Hello, how are you?", "Tell me about AI."]`
+
+- **`(body) Messages (JSON)`**
+  - **Type:** JSON Object
+  - **Description:** Messages provided as a JSON object. This field takes precedence over `"Messages (List)"` if both are set.
+  - **Example:** `{"messages": [{"role": "user", "content": "Tell me a joke."}]}`
+
+- **`(body) Thread Metadata`**
+  - **Type:** JSON Object
+  - **Description:** Metadata about the thread, formatted as key-value pairs, such as `{"key1": "value1", "key2": "value2"}`. You can attach up to 16 key-value pairs. Each key can be up to 64 characters, and each value can be up to 512 characters.
+  - **Example:** `{"session_id": "sess_12345", "project_id": "proj_67890"}`
+
+- **`(body) Run Metadata`**
+  - **Type:** JSON Object
+  - **Description:** Metadata about the run, formatted as key-value pairs, such as `{"key1": "value1", "key2": "value2"}`. Up to 16 key-value pairs can be attached. Each key can be a maximum of 64 characters, and each value can be a maximum of 512 characters.
+  - **Example:** `{"run_id": "run_abc123", "context": "test"}`
+
+- **`(body) Model`**
+  - **Type:** String
+  - **Description:** The model you would like the Assistant to use for this run.
+  - **Example:** `"gpt-3.5-turbo"`
+
+- **`(body) Version (v2 or v1)`**
+  - **Type:** String
+  - **Description:** Specifies which version of the Assistants API to use. Must be either `"v2"` or `"v1"`. `"v2"` is the current default.
+  - **Example:** `"v2"`
+
+- **`(body) Tools`**
+  - **Type:** JSON Array
+  - **Description:** A JSON array specifying the tools available to the Assistant during the run. For example: `[{"type": "code_interpreter"}, {"type": "retrieval"}]`.
+  - **Example:** `[{"type": "code_interpreter"}, {"type": "file_search"}]`
+
+- **`(body) Instructions`**
+  - **Type:** String
+  - **Description:** Override the Assistant's default instructions by providing specific instructions here.
+  - **Example:** `"Always provide detailed explanations."`
+
+- **`(body) Custom Body`**
+  - **Type:** JSON Object
+  - **Description:** If you'd like to provide your own request payload as JSON, you can do so here. This will override most of the properties above.
+  - **Example:** `{"custom": "value"}`
+
+- **`(body) User OpenAI API Key`**
+  - **Type:** String
+  - **Description:** If your user is providing their own API key, enter it here. Otherwise, you may create a Security Token and use that.
+  - **Example:** `"sk-..."`
+
+- **`(body) Security Token`**
+  - **Type:** String
+  - **Description:** If you are using your own API key and want to protect it from users, first create a security token using the action `"Create Security Token"`. Then provide that token here instead of your API key.
+  - **Example:** `"token_abc123"`
 
 ### Create Thread And Run (Non-Streaming)
 
