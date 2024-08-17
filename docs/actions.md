@@ -64,7 +64,7 @@ This is the in-depth documentation for each action that the plugin provides.  Fo
 ### Parameters
 
 - **`Element`**
-  - **Type:** String
+  - **Type:** Element
   - **Description:** The specified front-end DataContainer, which stores the chat data.
   - **Example:** `"ChatGPTToolkit-DataContainer A."`
 
@@ -261,7 +261,7 @@ This is the in-depth documentation for each action that the plugin provides.  Fo
 
 ### Parameters
 - **`Element`**
-  - **Type:** String
+  - **Type:** Element
   - **Description:** The DataContainer whose messages should be cleared.
   - **Example:** `"ChatGPTToolkit-DataContainer A."`
 
@@ -270,7 +270,7 @@ This is the in-depth documentation for each action that the plugin provides.  Fo
 
 ### Parameters
 - **`Element`**
-  - **Type:** String
+  - **Type:** Element
   - **Description:** The DataContainer whose latest message should be cleared.
   - **Example:** `"ChatGPTToolkit-DataContainer A."`
 
@@ -284,7 +284,7 @@ This is the in-depth documentation for each action that the plugin provides.  Fo
   - **Description:** The DataContainer which should recieve the system message.
   - **Example:** `"ChatGPTToolkit-DataContainer A."`
 - **`System Message`**
-  - **Type:** Number
+  - **Type:** Text
   - **Description:** Set a static system message that will be included with each message sent to ChatGPT. A system message
 controls the behavior of ChatGPT at a high level. You can instruct ChatGPT to respond in a particular style (eg.,
 formal, comic), to assume certain knowledge (eg., "you
@@ -309,7 +309,18 @@ simpler way to do the same thing.
 
 ### Stop Streaming
 
-(documentation coming soon)
+**Description:** This action will stop a model from streaming it's message to a specified DataContainer
+
+### Parameters
+- **`Element`**
+  - **Type:** String
+  - **Description:** The DataContainer which whose model should stop streaming.
+  - **Example:** `"ChatGPTToolkit-DataContainer A."`
+- **`Trigger Message Generation Complete`**
+  - **Type:** Boolean
+  - **Description:** This boolean allows one to set the message generation as complete when the streaming is stopped.
+  - **Example:** `"Yes"`
+
 
 ### Execute Function Call
 
@@ -320,35 +331,253 @@ simpler way to do the same thing.
 
 ### List Assistants
 
-(documentation coming soon)
+**Description:** This action creates a list of all assistants. This action requires no parameters.
 
 ### Create Assistant
 
-(documentation coming soon)
+**Description:** This action allows you to create an OpenAI Assistant.
+
+### Parameters
+- **`(header) Content-Type`**
+  - **Type:** String
+  - **Description:** Specifies the media type of the resource. Typically set to `application/json` for JSON payloads.
+  - **Example:** `"application/json"`
+
+- **`(header) Authorization`**
+  - **Type:** String
+  - **Description:** The bearer token used for authenticating the API request.
+  - **Example:** `"Bearer sk-..."`
+
+- **`(header) OpenAI-Beta`**
+  - **Type:** String
+  - **Description:** Indicates beta features or specific configurations for OpenAI models. Typically used for beta assistants or configurations.
+  - **Example:** `"assistants=v2"`
+
+- **`(body) instructions`**
+  - **Type:** String
+  - **Description:** The system instructions that the assistant uses. The maximum length is 256,000 characters.
+  - **Example:** `"You are a helpful assistant."`
+
+- **`(body) name`**
+  - **Type:** String
+  - **Description:** The name of the assistant. The maximum length is 256 characters.
+  - **Example:** `"My Assistant"`
+
+- **`(body) description`**
+  - **Type:** String
+  - **Description:** The description of the assistant. The maximum length is 512 characters.
+  - **Example:** `"This assistant helps with general inquiries."`
+
+- **`(body) model`**
+  - **Type:** String
+  - **Description:** ID of the model to use. You can use the List models API to see all of your available models or see the Model overview for descriptions of them.
+  - **Example:** `"gpt-4-turbo"`
+
+- **`(body) metadata`**
+  - **Type:** Object
+  - **Description:** Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long, and values can be a maximum of 512 characters long.
+  - **Example:** `{"category": "customer_service"}`
+
+- **`(body) response_format`**
+  - **Type:** String
+  - **Description:** Specifies the format that the model must output. Compatible with GPT-4, GPT-4 Turbo, and all GPT-3.5 Turbo models since gpt-3.5-turbo-1106. Default is `"auto"`. Setting to `{ "type": "json_object" }` enables JSON mode, which guarantees the message the model generates is valid JSON.
+  - **Example:** `"auto"`
+
+- **`(body) tools`**
+  - **Type:** Array
+  - **Description:** A list of tools enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.
+  - **Example:** `[{ "type": "code_interpreter" }]`
+
+- **`(body) tool_resources`**
+  - **Type:** Object
+  - **Description:** A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  - **Example:** `{"file_ids": ["file-1234"]}`
+
+- **`(body) top_p`**
+  - **Type:** Float
+  - **Description:** An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So `0.1` means only the tokens comprising the top 10% probability mass are considered.
+  - **Example:** `0.1`
+
+- **`(body) temperature`**
+  - **Type:** Float
+  - **Description:** What sampling temperature to use, between 0 and 2. Higher values like `0.8` will make the output more random, while lower values like `0.2` will make it more focused and deterministic.
+  - **Example:** `0.7`
 
 ### Upload File
 
-(documentation coming soon)
+**Description:** This action allows you to upload a file to a specified endpoint. It handles the file transfer, assigns a purpose for the uploaded file, and ensures proper authentication through the necessary API key.
+
+### Parameters
+
+- **`(header) Authorization`**
+  - **Type:** String
+  - **Description:** The bearer token used for authenticating the API request. This ensures that only authorized users or systems can perform the file upload.
+  - **Example:** `"Bearer sk-..."`
+
+- **`(param.) file`**
+  - **Type:** File Object
+  - **Description:** The file object that needs to be uploaded. This is not just the file name but the entire file object, which includes all necessary metadata for the upload.
+  - **Example:** `"Static file"` or `"Dynamic link"`
+
+- **`(param.) purpose`**
+  - **Type:** String
+  - **Description:** Specifies the purpose for which the file is being uploaded. This helps in categorizing the file within the system, ensuring it is used appropriately.
+  - **Example:** `"assistants"`
 
 ### Retrieve File
 
-(documentation coming soon)
+**Description:** This action allows you to retrieve a file using its unique identifier. The file can be downloaded or accessed as needed, with the retrieval process being secured through an API key.
+
+### Parameters
+
+- **`(path) file_id`**
+  - **Type:** String
+  - **Description:** The unique identifier for the file you want to retrieve. This ID is required to locate and access the specific file within the system.
+  - **Example:** `"file-abc123"`
+
+- **`Enter your API key`**
+  - **Type:** String
+  - **Description:** The API key used for authenticating the retrieval request. This ensures that only authorized users or systems can access the file.
+  - **Example:** `"sk-..."`
 
 ### Delete File
 
-(documentation coming soon)
+**Description:** This action allows you to delete a specific file using its unique identifier. The file will be permanently removed from the system once the deletion request is successfully processed.
+
+### Parameters
+
+- **`(path) file_id`**
+  - **Type:** String
+  - **Description:** The unique identifier for the file you want to delete. This ID is necessary to locate the specific file within the system that needs to be removed.
+  - **Example:** `"file-ATfVzmvTFPDHol9rGdFYDpgN"`
+
+- **`Enter your API key`**
+  - **Type:** String
+  - **Description:** The API key used to authenticate the deletion request. This ensures that only authorized users or systems can delete the file.
+  - **Example:** `"sk-..."`
 
 ### Retrieve File Content
 
-(documentation coming soon)
+**Description:** This action allows you to retrieve the content of a specific file using its unique identifier. The file's content will be accessed and returned as part of the response.
+
+### Parameters
+
+- **`(path) file_id`**
+  - **Type:** String
+  - **Description:** The unique identifier for the file whose content you want to retrieve. This ID is necessary to locate and access the specific file within the system.
+  - **Example:** `"file-ATfVzmvTFPDHol9rGdFYDpgN"`
+
+- **`Enter your API key`**
+  - **Type:** String
+  - **Description:** The API key used to authenticate the request. This ensures that only authorized users or systems can access the file's content.
+  - **Example:** `"sk-..."`
 
 ### Modify Assistant
 
-(documentation coming soon)
+**Description:** This action allows you to modify the settings and attributes of an existing assistant. You can update various properties such as its name, instructions, tools, and model configuration using the specified parameters.
+
+### Parameters
+
+- **`(path) assistant_id`**
+  - **Type:** String
+  - **Description:** The unique identifier for the assistant you want to modify. This ID is required to locate and update the specific assistant within the system.
+  - **Example:** `"assistant-123456789"`
+
+- **`(header) Content-Type`**
+  - **Type:** String
+  - **Description:** Specifies the media type of the resource. This should be set to `"application/json"` to ensure the server correctly interprets the request body as JSON data.
+  - **Example:** `"application/json"`
+
+- **`(header) Authorization`**
+  - **Type:** String
+  - **Description:** The API key or token used for authorization. This header authenticates the request, ensuring that only authorized users can modify the assistant.
+  - **Example:** `"Bearer sk-..."`
+
+- **`(header) OpenAI-Beta`**
+  - **Type:** String
+  - **Description:** Used to specify beta features for OpenAI's assistants. This allows access to certain experimental or pre-release functionalities. 
+  - **Example:** `"assistants=v2"`
+
+- **`(body) instructions`**
+  - **Type:** String
+  - **Description:** The updated system instructions that the assistant should follow. These instructions guide the assistant’s behavior and responses.
+  - **Example:** `"Provide concise answers to user queries."`
+
+- **`(body) name`**
+  - **Type:** String
+  - **Description:** The new name for the assistant. This name will be used to identify the assistant in the system and should be unique.
+  - **Example:** `"Customer Support Assistant"`
+
+- **`(body) description`**
+  - **Type:** String
+  - **Description:** A brief description of the assistant's purpose or functionality. This helps to clarify the assistant’s role and usage.
+  - **Example:** `"This assistant handles customer support inquiries."`
+
+- **`(body) tools`**
+  - **Type:** Array of Objects
+  - **Description:** A list of tools enabled for the assistant. Tools can be of various types, such as `code_interpreter`, `file_search`, or `function`, enhancing the assistant’s capabilities.
+  - **Example:** `[{ "type": "code_interpreter" }, { "type": "file_search" }]`
+
+- **`(body) vector_store_id`**
+  - **Type:** String
+  - **Description:** The identifier for a vector store that the assistant can utilize. Vector stores are typically used for advanced search functionalities within large datasets.
+  - **Example:** `"vectorstore-12345"`
+
+- **`(body) file_ids`**
+  - **Type:** Array of Strings
+  - **Description:** A list of file identifiers that the assistant can access. This allows the assistant to retrieve and use the content of specified files.
+  - **Example:** `["file-123", "file-456"]`
+
+- **`(body) model`**
+  - **Type:** String
+  - **Description:** The identifier of the model to be used by the assistant. This defines the assistant’s underlying AI model and capabilities.
+  - **Example:** `"gpt-4-turbo"`
+
+- **`(body) metadata`**
+  - **Type:** Object
+  - **Description:** A set of key-value pairs that provide additional information about the assistant in a structured format. Metadata can be useful for tracking and managing assistants.
+  - **Example:** `{"category": "support", "version": "v1.2"}`
+
+- **`(body) top_p`**
+  - **Type:** Number
+  - **Description:** A sampling method that controls the diversity of the assistant's output. Lower values focus on more likely predictions, while higher values allow for more creative responses.
+  - **Example:** `0.9`
+
+- **`(body) temperature`**
+  - **Type:** Number
+  - **Description:** Controls the randomness of the assistant's responses. Lower values make the output more deterministic, while higher values increase variability.
+  - **Example:** `0.7`
+
+- **`(body) response_form`**
+  - **Type:** String
+  - **Description:** Specifies the format of the assistant’s output. The default is `"auto"`, but it can be set to specific formats like `{"type": "json_object"}` to enforce structured outputs.
+  - **Example:** `"auto"`
 
 ### Delete Assistant
 
-(documentation coming soon)
+**Description:** This action deletes an existing assistant, permanently removing it from the system. The specified assistant, identified by its unique ID, will no longer be available after this action is completed.
+
+### Parameters
+
+- **`(path) assistant_id`**
+  - **Type:** String
+  - **Description:** The unique identifier of the assistant you wish to delete. This ID is necessary to locate and remove the correct assistant from the system.
+  - **Example:** `"asst_oULbF3tvVtvnEzDIxoO00eJW"`
+
+- **`(header) Content-Type`**
+  - **Type:** String
+  - **Description:** Specifies the media type of the resource. This should be set to `"application/json"` to ensure the server processes the request correctly.
+  - **Example:** `"application/json"`
+
+- **`(header) Authorization`**
+  - **Type:** String
+  - **Description:** The API key or token used for authorization. This header authenticates the request, ensuring that only authorized users can delete the assistant.
+  - **Example:** `"Bearer sk-..."`
+
+- **`(header) OpenAI-Beta`**
+  - **Type:** String
+  - **Description:** This allows one to specify which version of assistants is being utilized.
+  - **Example:** `"assistants=v2"`
 
 ### Create Thread
 
