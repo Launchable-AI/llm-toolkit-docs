@@ -297,11 +297,115 @@ simpler way to do the same thing.
 
 ### Add Function
 
-(documentation coming soon)
+**Description:** This action allows you to define a function by specifying its name, description, and properties. The function can then be used within a model to perform specific tasks based on the input provided.
+
+### Parameters
+
+- **`Element`**
+  - **Type:** Element Selector
+  - **Description:** The element in your application where the function is defined, typically related to a data container or a specific element that will use this function.
+  - **Example:** `ChatGPTToolkit-DataContainer`
+
+- **`Name`**
+  - **Type:** String
+  - **Description:** The name of the function to be called. The name must consist of letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-), with a maximum length of 64 characters.
+  - **Example:** `calculate_total`
+
+- **`Description`**
+  - **Type:** Rich Text
+  - **Description:** A description of what the function does. This description helps the model determine when and how to call the function.
+  - **Example:** `This function calculates the total amount after applying discounts and taxes.`
+
+- **Property Structure:**
+  Each property follows the same structure as detailed below. You can define multiple properties (e.g., Property 1, Property 2, Property 3, Property 4, Property 5) with these attributes:
+
+  - **`Property X - Name`**
+    - **Type:** String
+    - **Description:** The name of the property, which maps to an input argument expected by the function.
+    - **Example:** `price`, `discount`, `tax_rate`, `quantity`, `unit`
+
+  - **`Property X - Type`**
+    - **Type:** String
+    - **Description:** The data type of the property. Valid types include `string`, `number`, `integer`, `object`, `array`, `boolean`, `null`.
+    - **Example:** `number`, `string`, `boolean`
+
+  - **`Property X - Description`**
+    - **Type:** Rich Text
+    - **Description:** A description of the property. This helps the model understand the role of the property in the function call.
+    - **Example:** `The original price of the item before applying any discounts.`, `The discount percentage to be applied.`, `The number of items purchased.`
+
+  - **`Property X - Required?`**
+    - **Type:** Boolean
+    - **Description:** Specifies whether the property is required for the function call. Must be set to either `yes` or `no`.
+    - **Example:** `yes`, `no`
 
 ### Set Functions
 
-(documentation coming soon)
+**Description:** This action allows you to set a list of functions to be loaded into a Data Container. The functions must be defined in a specific format and are used by models to perform designated tasks based on input parameters.
+
+### Parameters
+
+- **`Element`**
+  - **Type:** Element Selector
+  - **Description:** The element in your application where the functions will be loaded, typically a data container or a similar element that requires the use of these functions.
+  - **Example:** `ChatGPTToolkit-DataContainer`
+
+- **`Functions (text)`**
+  - **Type:** Rich Text
+  - **Description:** The raw text of the functions to be loaded into the Data Container. Functions should be formatted as a JSON array, enclosed in square brackets `[]`, with each function separated by a comma. The format must adhere to the specifications outlined in the [OpenAI API documentation](https://platform.openai.com/docs/api-reference/chat/create#chat/create-functions).
+  - **Example:** 
+    ```json
+    [
+      {
+        "name": "calculate_total",
+        "description": "Calculates the total amount after applying discounts and taxes.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "price": {
+              "type": "number",
+              "description": "The original price of the item."
+            },
+            "discount": {
+              "type": "number",
+              "description": "The discount percentage to apply."
+            },
+            "tax_rate": {
+              "type": "number",
+              "description": "The tax rate to apply to the discounted price."
+            },
+            "quantity": {
+              "type": "integer",
+              "description": "The number of items purchased."
+            }
+          },
+          "required": ["price", "quantity"]
+        }
+      },
+      {
+        "name": "convert_currency",
+        "description": "Converts an amount from one currency to another.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "amount": {
+              "type": "number",
+              "description": "The amount of money to convert."
+            },
+            "from_currency": {
+              "type": "string",
+              "description": "The currency code of the source currency."
+            },
+            "to_currency": {
+              "type": "string",
+              "description": "The currency code of the target currency."
+            }
+          },
+          "required": ["amount", "from_currency", "to_currency"]
+        }
+      }
+    ]
+    ```
 
 ### Set Parameters
 
@@ -324,7 +428,61 @@ simpler way to do the same thing.
 
 ### Execute Function Call
 
-(documentation coming soon)
+**Description:** This action allows you to execute a function call by sending a request to a specified endpoint, using a chosen model and optionally including user-provided API keys and custom headers.
+
+### Parameters
+
+- **`Function Call`**
+  - **Type:** Rich Text
+  - **Description:** The body of the function call, usually set to the "Data Container's Latest Function Call". This is the JSON representation of the function call including the function name and its parameters.
+  - **Example:** 
+    ```json
+    {
+      "name": "calculate_total",
+      "arguments": {
+        "price": 100,
+        "discount": 10,
+        "tax_rate": 7,
+        "quantity": 2
+      }
+    }
+    ```
+
+- **`Model`**
+  - **Type:** String
+  - **Description:** Specifies which ChatGPT model to use for executing the function call. Supported options are `"gpt-3.5-turbo"`, `"gpt-4"`, `"gpt-3.5-turbo-16k"`, and `"gpt-4-32k"`. The default is `"gpt-3.5-turbo"`, which is faster and cheaper, while `"gpt-4"` is more powerful but slower and more expensive.
+  - **Example:** `gpt-3.5-turbo`
+
+- **`User OpenAI API Key`**
+  - **Type:** String (Optional)
+  - **Description:** If you want to dynamically provide an API key or allow users to input their own API key, set this value. If the API key remains constant, it can be configured in the plugins tab.
+  - **Example:** `sk-XXXXXXX`
+
+- **`Endpoint/API URL`**
+  - **Type:** String
+  - **Description:** The URL of the endpoint that will handle the function call. This could be the URL of the API you are interacting with, such as `https://api.weather.com`, or the URL of your own server.
+  - **Example:** `https://api.yourservice.com/function-call`
+
+- **`Headers`**
+  - **Type:** Rich Text
+  - **Description:** Include any necessary headers required by the API. These should be formatted as a JSON string, typically including things like authorization tokens and content type.
+  - **Example:** 
+    ```json
+    {
+      "Authorization": "Bearer sk-XXXXXXX",
+      "Content-Type": "application/json"
+    }
+    ```
+
+- **`HTTP Method`**
+  - **Type:** String
+  - **Description:** The HTTP method to use when making the request. Usually, this will be either `"POST"` or `"GET"`, depending on the API endpoint's requirements.
+  - **Example:** `POST`
+
+- **`Custom Plugin URL`**
+  - **Type:** String (Optional)
+  - **Description:** If you are hosting your own plugin server, enter its address here.
+  - **Example:** `https://my-plugin-server.com`
 
 
 ## Assistants (OpenAI)
