@@ -791,7 +791,34 @@ simpler way to do the same thing.
 
 ### Modify Thread
 
-(documentation coming soon)
+**Description:** This action modifies a specific thread by its ID, allowing updates to the tools and metadata associated with the thread.
+
+### Parameters
+
+- **`(path) Thread ID`**
+  - **Type:** String
+  - **Description:** The ID of the thread to modify.
+  - **Example:** `"thread_Kejsk1txfpFfcbI6Um501qd6"`
+
+- **`(header) Content-Type`**
+  - **Type:** String
+  - **Description:** Specifies the content type of the request. Should be set to `"application/json"`.
+
+- **`(header) OpenAI-Beta`**
+  - **Type:** String
+  - **Description:** Specifies the assistants version.
+  - **Example:** `"assistants=v2"`
+
+- **`(body) Tool Resources`**
+  - **Type:** JSON Object
+  - **Description:** A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
+  - **Example:** `{"file_ids": ["file_ABC123", "file_DEF456"]}`
+
+- **`(body) Metadata`**
+  - **Type:** JSON Object
+  - **Description:** Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maximum of 512 characters long.
+  - **Example:** `{"key1": "value1", "key2": "value2"}`
+
 
 ### Delete Thread
 
@@ -806,31 +833,315 @@ simpler way to do the same thing.
 
 ### Create Message
 
-(documentation coming soon)
+**Description:** This action creates a message within a specific thread by its ID, including the role, content, and optional attachments or metadata.
+
+### Parameters
+
+- **`(path) Thread ID`**
+  - **Type:** String
+  - **Description:** The ID of the thread where the message will be created.
+  - **Example:** `"thread_MV1AfPOZriOqNwcVKTdjMZpS"`
+
+- **`(header) Content-Type`**
+  - **Type:** String
+  - **Description:** Specifies the content type of the request. Should be set to `"application/json"`.
+
+- **`(header) OpenAI-Beta`**
+  - **Type:** String
+  - **Description:** Specifies the assistants version.
+  - **Example:** `"assistants=v2"`
+
+- **`(body) Role`**
+  - **Type:** String
+  - **Description:** Specifies the role of the message sender. Common roles include `"user"`, `"assistant"`, and `"system"`.
+  - **Example:** `"user"`
+
+- **`(body) Content`**
+  - **Type:** String or Array
+  - **Description:** The content of the message. For text, the content must be enclosed in quotes, e.g., `"hello"`. For arrays, the content can include a mix of text and images, with images being supported on Vision-compatible models.
+  - **Example:** `"How does AI work? Explain it in simple terms."`
+
+- **`(body) Attachments`**
+  - **Type:** Array
+  - **Description:** A list of files attached to the message, specifying which tools these attachments should be added to.
+  - **Example:** `[{ "file_id": "file_ABC123", "tool": "code_interpreter" }]`
+
+- **`(body) Metadata`**
+  - **Type:** JSON Object
+  - **Description:** Set of 16 key-value pairs that can be attached to the message. This can be useful for storing additional information about the message in a structured format. Keys can be a maximum of 64 characters long, and values can be a maximum of 512 characters long.
+  - **Example:** `{"key1": "value1", "key2": "value2"}`
 
 ### List Messages
 
-(documentation coming soon)
+**Description:** This action retrieves a list of messages from a specified thread, allowing for filtering and ordering of the results based on various parameters.
+
+### Parameters
+
+- **`(path) Thread ID`**
+  - **Type:** String
+  - **Description:** The ID of the thread from which messages will be retrieved.
+  - **Example:** `"thread_pGkCyBUoF9WfwG3g7bY1cSN3"`
+
+- **`(header) Content-Type`**
+  - **Type:** String
+  - **Description:** Specifies the content type of the request. Should be set to `"application/json"`.
+
+- **`(header) OpenAI-Beta`**
+  - **Type:** String
+  - **Description:** Specifies the assistants version
+  - **Example:** `"assistants=v2"`
+
+- **`(param) Limit`**
+  - **Type:** Integer
+  - **Description:** The maximum number of messages to retrieve.
+  - **Example:** `"100"`
+
+- **`(param) Order`**
+  - **Type:** String
+  - **Description:** The order in which to retrieve the messages, either `"asc"` for ascending or `"desc"` for descending.
+  - **Example:** `"desc"`
+
+- **`(param) After`**
+  - **Type:** String (Timestamp)
+  - **Description:** Retrieves messages sent after the specified timestamp.
+  - **Example:** `"2024-08-16T12:00:00Z"`
+
+- **`(param) Before`**
+  - **Type:** String (Timestamp)
+  - **Description:** Retrieves messages sent before the specified timestamp.
+  - **Example:** `"2024-08-16T14:00:00Z"`
+
+- **`(param) Run ID`**
+  - **Type:** String
+  - **Description:** Filters messages by the specific run ID within the thread.
+  - **Example:** `"run_aBcD1234EfGh"`
 
 ### Retrieve Message
 
-(documentation coming soon)
+**Description:** This action retrieves a specific message from a thread using the message's unique identifier.
+
+### Parameters
+
+- **`(path) Thread ID`**
+  - **Type:** String
+  - **Description:** The ID of the thread from which the message will be retrieved.
+  - **Example:** `"thread_MV1AfPOZriOqNwcVKTdjMZpS"`
+
+- **`(path) Message ID`**
+  - **Type:** String
+  - **Description:** The unique identifier of the message to retrieve.
+  - **Example:** `"msg_HuE7P6AYzHxkiZKqPzAaLIhv"`
+
+- **`(header) Content-Type`**
+  - **Type:** String
+  - **Description:** Specifies the content type of the request. Should be set to `"application/json"`.
+
+- **`(header) OpenAI-Beta`**
+  - **Type:** String
+  - **Description:** Specifies the assistants version
+  - **Example:** `"assistants=v2"`
 
 ### Modify Message
 
-(documentation coming soon)
+**Description:** This action modifies a specific message in a thread using the message's unique identifier.
+
+### Parameters
+
+- **`(path) Message ID`**
+  - **Type:** String
+  - **Description:** The unique identifier of the message to modify.
+  - **Example:** `"msg_HuE7P6AYzHxkiZKqPzAaLIhv"`
+
+- **`(path) Thread ID`**
+  - **Type:** String
+  - **Description:** The ID of the thread containing the message.
+  - **Example:** `"thread_MV1AfPOZriOqNwcVKTdjMZpS"`
+
+- **`(header) Content-Type`**
+  - **Type:** String
+  - **Description:** Specifies the content type of the request. Should be set to `"application/json"`.
+
+- **`(header) OpenAI-Beta`**
+  - **Type:** String
+  - **Description:** Specifies the assistants version
+  - **Example:** `"assistants=v2"`
+
+- **`(body) Metadata`**
+  - **Type:** Object
+  - **Description:** A set of 16 key-value pairs that can be attached to the message. This is useful for storing additional information in a structured format. Keys can be a maximum of 64 characters long and values can be a maximum of 512 characters long.
+
 
 ### Delete Message 
 
-(documentation coming soon)
+**Description:** This action deletes a specific message in a thread using the message's unique identifier.
+
+### Parameters
+
+- **`(path) Message ID`**
+  - **Type:** String
+  - **Description:** The unique identifier of the message to delete.
+  - **Example:** `"msg_HuE7P6AYzHxkiZKqPzAaLlhv"`
+
+- **`(path) Thread ID`**
+  - **Type:** String
+  - **Description:** The ID of the thread containing the message.
+  - **Example:** `"thread_MV1AfPOZriOqNwcVKTdjMZpS"`
+
+- **`(header) Content-Type`**
+  - **Type:** String
+  - **Description:** Specifies the content type of the request. Should be set to `"application/json"`.
+
+- **`(header) OpenAI-Beta`**
+  - **Type:** String
+  - **Description:** Specifies the assistants version
+  - **Example:** `"assistants=v2"`
 
 ### Create Run (Non-Streaming)
 
-(documentation coming soon)
+**Description:** This action creates a run for a specified thread (non-streaming).
+
+### Parameters
+
+- **`(path) Thread ID`**
+  - **Type:** String
+  - **Description:** The ID of the thread to run.
+  - **Example:** `"thread_MV1AfPOZriOqNwcVKTdjMZpS"`
+
+- **`(header) Content-Type`**
+  - **Type:** String
+  - **Description:** Specifies the content type of the request. Should be set to `"application/json"`.
+
+- **`(header) OpenAI-Beta`**
+  - **Type:** String
+  - **Description:** Specifies the API version and other headers relevant to the OpenAI Beta.
+
+- **`(body) Assistant ID`**
+  - **Type:** String
+  - **Description:** The ID of the assistant to use to execute this run.
+  - **Example:** `"asst_OSRwVyQ3frGKa|30JNPjMmPJ"`
+
+- **`(body) Model`**
+  - **Type:** String
+  - **Description:** The ID of the Model to be used to execute this run. If provided, it overrides the model associated with the assistant. If not provided, the model associated with the assistant will be used.
+
+- **`(body) Instructions`**
+  - **Type:** String
+  - **Description:** Overrides the instructions of the assistant. Useful for modifying behavior on a per-run basis.
+
+- **`(body) Tools`**
+  - **Type:** Array
+  - **Description:** Overrides the tools the assistant can use for this run. Useful for modifying behavior on a per-run basis.
+
+- **`(body) Additional Instructions`**
+  - **Type:** String
+  - **Description:** Appends additional instructions at the end of the instructions for the run. Useful for modifying behavior without overriding other instructions.
+
+- **`(body) Metadata`**
+  - **Type:** JSON Object
+  - **Description:** A set of key-value pairs that can be attached to the run. Useful for storing additional information in a structured format.
+
+- **`(body) Temperature`**
+  - **Type:** Number
+  - **Description:** Controls the randomness of the model's responses. Higher values mean more random outputs.
+
+- **`(body) Top P`**
+  - **Type:** Number
+  - **Description:** Controls the diversity of the model’s responses by sampling from the top tokens.
+
+- **`(body) Max Prompt Tokens`**
+  - **Type:** Integer
+  - **Description:** The maximum number of tokens in the prompt.
+
+- **`(body) Max Completion Tokens`**
+  - **Type:** Integer
+  - **Description:** The maximum number of tokens in the completion.
+
+- **`(body) Truncation Strategy`**
+  - **Type:** String
+  - **Description:** Controls how the thread will be truncated prior to the run. This affects the initial context window of the run.
+
+- **`(body) Additional Messages`**
+  - **Type:** Array
+  - **Description:** Adds additional messages to the thread before creating the run.
+
+- **`(body) Response Format`**
+  - **Type:** JSON Object
+  - **Description:** Specifies the format that the model must output. Compatible with GPT-4 and GPT-3.5 models. Setting to `{ "type": "json_object" }` enables JSON mode, ensuring the message generated is valid JSON. When using JSON mode, you must also instruct the model to produce JSON via a system or user message to avoid unending streams of whitespace.
+
+- **`(body) Tool Choice`**
+  - **Type:** String
+  - **Description:** Controls which tool, if any, is called by the model. `none` means the model generates a message without calling any tools. `auto` allows the model to choose between generating a message or calling tools. `required` means the model must call one or more tools. Specifying a tool directly forces the model to call that tool.
+
 
 ### Create Run (Streaming)
 
-(documentation coming soon)
+**Description:** This action creates a run with streaming for a specified thread.
+
+### Parameters
+
+
+- **`Element`**
+  - **Type:** Element
+  - **Description:** The AssistantContainer for which the run should be conducted
+
+- **`(path) Thread ID`**
+  - **Type:** String
+  - **Description:** The ID of the thread you want to use for the run.
+  - **Example:** `"thread_MV1AfPOZriOqNwcVKTdjMZpS"`
+
+- **`(header) Content-Type`**
+  - **Type:** String
+  - **Description:** Specifies the content type of the request. Should be set to `"application/json"`.
+
+- **`(header) OpenAI-Beta`**
+  - **Type:** String
+  - **Description:** Specifies the API version and other headers relevant to the OpenAI Beta.
+
+- **`(body) Assistant ID`**
+  - **Type:** String
+  - **Description:** The ID of the Assistant you want to use for the run.
+  - **Example:** `"asst_OSRwVyQ3frGKa|30JNPjMmPJ"`
+
+- **`(body) Model`**
+  - **Type:** String
+  - **Description:** Override the default model for the Assistant.
+  - **Example:** `"gpt-4-turbo"`
+
+- **`(body) Version`**
+  - **Type:** String
+  - **Description:** Which version of the Assistants API to use. Must be either `"v2"` or `"v1"`. `"v2"` is the current default.
+  - **Example:** `"v2"`
+
+- **`(body) Instructions`**
+  - **Type:** String
+  - **Description:** Overrides the instructions of the assistant. Useful for modifying the behavior on a per-run basis.
+  - **Example:** `"Provide a detailed explanation of the topic."`
+
+- **`(body) Tools`**
+  - **Type:** Array
+  - **Description:** Override the tools the assistant can use for this run. Useful for modifying the behavior on a per-run basis.
+  - **Example:** `["tool1", "tool2"]`
+
+- **`(body) Run Metadata`**
+  - **Type:** JSON Object
+  - **Description:** Metadata about the run, formatted as key-value pairs, like `{"key1": "value1", "key2": "value2"}`. Useful for storing additional information about the run in a structured format. Keys can be a maximum of 64 characters long and values can be a maximum of 512 characters long.
+  - **Example:** `{"context": "example run", "priority": "high"}`
+
+- **`(body) Custom Body`**
+  - **Type:** JSON Object
+  - **Description:** If you'd like to provide your own request payload as JSON, you can do it here. This will override most of the properties above.
+
+- **`(body) User OpenAI API Key`**
+  - **Type:** String
+  - **Description:** If your user is providing their own API key, enter it here. If you are providing your own API key, you will want to create a Security Token using the action `"Create Security Token"`.
+
+- **`(body) Security Token`**
+  - **Type:** String
+  - **Description:** If you are using your own API key and want to protect it from users, first create a security token using the action `"Create Security Token"`. Provide that here instead of your API key.
+  - **Example:** `"security_token_example"`
+
+
+
 
 ### Retrieve Run
 
